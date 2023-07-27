@@ -2,6 +2,74 @@
 #include<conio.h>
 #include<fstream>
 using namespace std;
+void menu;
+void Firstmenu();
+void secondmenu();
+void UserDetailModi();
+void roommanagement();
+void usersection();
+int login();
+bool loginsystem();
+void Register();
+
+int main()
+{
+    int c;
+    char r;
+    bool vari = 0;
+    menu();
+    cin >> c;
+
+    switch (c)
+    {
+    case 1:
+    start:
+        int AdmOpt;
+        Firstmenu();
+        cin >> AdmOpt;
+        switch (AdmOpt)
+        {
+        case 1:
+        bool s;
+            cout << "\t\tLogin page";
+            s=loginsystem();
+            if(s=true)
+            {
+                main();
+            }
+            else break;
+                break;
+        case 2:
+            Register();
+            cout << "Press m or M to goto mainmenu: ";
+            cin >> r;
+            if (r == 'm' || r == 'M')
+            {
+                main();
+            }
+            else
+                break;
+        default :
+            {
+                cout << "Wrong Entry try again!!";
+                goto start;
+            }
+        }
+        break;
+    case 2:
+        cout << "User section:";  usersection(); break;
+
+    case 3:
+        cout << "We are exiting.!! Thank you.";
+        exit(0);
+    default: 
+        cout << "Wrong Entry try again!!";
+        main();
+    }
+
+    return 0;
+}
+
 void menu()
 {   cout<<"\n \n \n \n";
    system("cls");
@@ -199,62 +267,3 @@ void Register()
     }
     // main();
 }
-
-int main()
-{
-    int c;
-    char r;
-    bool vari = 0;
-    menu();
-    cin >> c;
-
-    switch (c)
-    {
-    case 1:
-    start:
-        int AdmOpt;
-        Firstmenu();
-        cin >> AdmOpt;
-        switch (AdmOpt)
-        {
-        case 1:
-        bool s;
-            cout << "\t\tLogin page";
-            s=loginsystem();
-            if(s=true)
-            {
-                main();
-            }
-            else break;
-                break;
-        case 2:
-            Register();
-            cout << "Press m or M to goto mainmenu: ";
-            cin >> r;
-            if (r == 'm' || r == 'M')
-            {
-                main();
-            }
-            else
-                break;
-        default :
-            {
-                cout << "Wrong Entry try again!!";
-                goto start;
-            }
-        }
-        break;
-    case 2:
-        cout << "User section:";  usersection(); break;
-
-    case 3:
-        cout << "We are exiting.!! Thank you.";
-        exit(0);
-    default: 
-        cout << "Wrong Entry try again!!";
-        main();
-    }
-
-    return 0;
-}
-

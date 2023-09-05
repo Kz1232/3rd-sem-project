@@ -11,13 +11,25 @@ class Room
 public:
     char roomtype[50];
     int rcode;
+    bool flag;
     int price;
     int discount;
     int VAT;
-    void input()
+    string special_feature[20];
+    void EntSpF(int n)
     {
+        for(int i=0;i<n;i++)
+        {
+            cout<<"\nEnter the name of feature "<<i+1<<": ";
+            cin.ignore();
+            getline(cin,special_feature[i]);
+        }
+    }
+    void input()
+    { int choice,n;
+        flag=false;
         cout << "Enter Room type: ";
-        cin.getline(roomtype, 50);
+        cin.getline(roomtype,50);
         cout << "Enter Room  code: ";
         cin >> rcode;
         cout << "Enter Room price: ";
@@ -26,6 +38,15 @@ public:
         cin >> discount;
         cout << "Enter VAT percentage: ";
         cin >> VAT;
+        cout<<"\nDo you want to add additional feature of this rooom";
+        cout<<"\nIf yes enter 1 else any other key ";
+        cin>>choice;
+        if(choice==1)
+        {
+            cout<<"Enter the total number of feature:";
+            cin>>n;
+            EntSpF(n);
+        }
     }
     void actualedit(int);
     void display()
@@ -33,6 +54,11 @@ public:
         cout << "Room code: " << rcode << endl;
         cout << "Room type: " << roomtype << endl;
         cout << "Price: " << price << endl;
+        //getch();
+    }
+    ~Room()
+    {
+        cout<<"\0";
     }
 };
 void smile()
@@ -47,7 +73,7 @@ void smile()
 void Room::actualedit(int n)
 {
     int op;
-    char rtype[20], a;
+    char  rtype[50],a;
     int tpri, tdis, tvat;
 again:
     bool flag = 0;
@@ -70,7 +96,7 @@ again:
             a = getch();
             if (a == 'y' || 'Y')
             {
-                strcpy(roomtype, rtype);
+                strcpy(roomtype,rtype);
                 flag = 1;
                 break;
             }
@@ -171,7 +197,6 @@ void edit(int n)
         }
         file.seekp(fpos - sizeof(Room), ios::beg);
         tmp = st;
-        // tmp.actualedit(st.roomtype,rid,st.price);
         tmp.actualedit(rid);
 
         file.write((char *)&tmp, sizeof(Room));
@@ -265,9 +290,9 @@ int main()
         cout << "4.Delete Room \n";
         cout << "5. Exit\n";
         cout << "Enter your choice: ";
+        
         cin >> choice;
         cin.ignore(); // Clear the newline character left in the buffer
-
         switch (choice)
         {
         case 1:
@@ -328,13 +353,14 @@ int main()
         default:
             cout << "Invalid choice. Please select again." << endl;
         }
+        cout<<"Compiler";
     }
-
     return 0;
 }
 
-/* Output:-
 
+/* Output:-
+Value of flag will determine whether it is allocated or not.
 
 
 

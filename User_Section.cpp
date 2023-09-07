@@ -4,34 +4,27 @@
 #include <conio.h>
 #include <cmath>
 #include <windows.h>
+#include <iomanip>
 using namespace std;
 int totalamount(int, int);
 void smile();
 void deleteUserdata(int);
 void deleteroom(int);
 void againopenandclosefile();
-void roomAllocandDealloc(int,int);
+void roomAllocandDealloc(int, int);
 // Room class
 class Room
 {
 public:
     char roomtype[50];
     int rcode;
-    int price;
     bool flag;
-    int discount;
-    int VAT;
-    string special_feature[20];
-    void EntSpF(int n)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            cout << "\nEnter the name of feature " << i + 1 << ": ";
-            getline(cin, special_feature[i]);
-        }
-    }
+    int price;
+    float discount;
+    float VAT;
     void input()
-    {   flag=0;
+    {
+        flag = false;
         int choice, n;
         cout << "Enter Room type: ";
         cin.getline(roomtype, 50);
@@ -43,28 +36,32 @@ public:
         cin >> discount;
         cout << "Enter VAT percentage: ";
         cin >> VAT;
-        cout << "\nDo you want to add additional feature of this rooom";
-        cout << "\nIf yes enter 1 else any other key ";
-        cin >> choice;
-        if (choice == 1)
-        {
-            cout << "Enter the total number of feature:";
-            cin >> n;
-            EntSpF(n);
-        }
+        // cout << "\nDo you want to add additional feature of this rooom";
+        // cout << "\nIf yes enter 1 else any other key ";
+        // cin >> choice;
+        // if (choice == 1)
+        // {
+        //     cout << "Enter the total number of feature:";
+        //     cin >> n;
+        //     EntSpF(n);
+        // }
     }
     void actualedit(int);
     void display()
-    {
-        cout << "Room code: " << rcode << endl;
-        cout << "Room type: " << roomtype << endl;
-        cout << "Price: " << price << endl;
+    { int i=1;
+        cout << "|  "<<i<<" |   "<<setw(5)<<rcode<<"     |   "<<setw(12)<<roomtype<<"        |  "<<setw(6)<<price<<"  |   "<<setw(5)<<discount<<"    | "<<setw(5)<<VAT<<"|" << endl;
+        // cout << "\n\t\t\t\tRoom code: " << rcode << endl;
+        // cout << "\t\t\t\tRoom type: " << roomtype << endl;
+        // cout << "\t\t\t\tPrice: " << price << endl;
+        // cout << "\t\t\t\tVAT: " <<VAT <<endl;
+        // cout << "\t\t\t\tDiscount: " <<discount<<endl;
+        // cout<< "\n";
     }
     int rocode()
     {
         return rcode;
     }
-    int retDiscount()
+    float retDiscount()
     {
         return discount;
     }
@@ -72,7 +69,7 @@ public:
     {
         return price;
     }
-    int retVat()
+    float retVat()
     {
         return VAT;
     }
@@ -80,17 +77,13 @@ public:
     {
         return roomtype;
     }
-    string *retSpecial_feature()
-    {
-        return special_feature;
-    }
     void flagon()
     {
-        flag=true;
+        flag = true;
     }
     void flagoff()
     {
-        flag=false;
+        flag = false;
     }
 };
 
@@ -99,8 +92,8 @@ class User
 {
 private:
     int roomCode;
-    string name;
-    string address;
+    char name[50];
+    char address[50];
     int age;
 
 public:
@@ -108,30 +101,30 @@ public:
     User()
     {
         roomCode = 0;
-        name = "";
-        address = "";
+        // name = "";
+        // address = "";
         age = 0;
     }
 
     // Member function to take input for data members
     void inputData()
     {
-        char c; Room temp;
-        repeat:
-        cout << "Enter Room Code: ";
+        char c;
+    repeat:
+        cout << "\nEnter Room Code: ";
         cin >> roomCode;
 
         cout << "Enter Name: ";
         cin.ignore(); // Ignore any previous newline character
-        getline(cin, name);
+        cin.getline(name, 50);
 
         cout << "Enter Address: ";
-        getline(cin, address);
+        cin.getline(address, 50);
 
         cout << "Enter Age: ";
         cin >> age;
-        cout << "\nPlease review your data and enter 'Y' or 'y'  to confirm it";
-        cin>>c;
+        cout << "\nPlease review your data and enter 'Y' or 'y'  to confirm it: ";
+        cin >> c;
         if (c == 'Y' || c == 'y')
         {
             if (age < 18)
@@ -139,8 +132,7 @@ public:
                 cout << "\nAge is invalid!! \n Re-enter the age: ";
                 cin >> age;
             }
-           roomAllocandDealloc(roomCode,1); 
-            cout << "\nValid age and user checked-in successfull";
+            roomAllocandDealloc(roomCode, 1);
         }
         else
             goto repeat;
@@ -149,20 +141,21 @@ public:
     // Member function to display user information
     void displayData()
     {
-        cout << "Room Code: " << roomCode << endl;
+        cout << "\nRoom Code: " << roomCode << endl;
         cout << "Name: " << name << endl;
         cout << "Address: " << address << endl;
         cout << "Age: " << age << endl;
+        cout << "\n";
     }
-    string retName()
+    char *retName()
     {
         return name;
     }
-    string retAddress()
+    char *retAddress()
     {
         return address;
     }
-    int rocode()
+    int roCode()
     {
         return roomCode;
     }
@@ -173,28 +166,32 @@ void usermenu()
     cout << "\n1.Check-in";
     cout << "\n2.Check-out";
     cout << "\n3.Exit";
-    cout << "\nEnter your choice: ";
+    cout << "\n4. Display the data in the file";
+    cout << "\n5.Delete the data";
+    cout << "\n\nEnter your choice: ";
 }
 void check_in()
 {
-     User user1;
-            user1.inputData();
-            ofstream writeFile;
-            writeFile.open("UserRecordsFile.txt", ios::binary | ios::app | ios::out);
-            if (!writeFile.is_open())
-            {
-                cout << "Error opening file for writing!" << endl;
-                return ;
-            }
-             writeFile.write(reinterpret_cast<const char *>(&user1), sizeof(User));
-            writeFile.close();
+    User user1;
+    user1.inputData();
+    ofstream writeFile;
+    writeFile.open("UserRecordsFile.txt", ios::binary | ios::app | ios::out);
+    if (!writeFile.is_open())
+    {
+        cout << "Error opening file for writing!" << endl;
+        return;
+    }
+    writeFile.write((char *)&user1, sizeof(User));
+    writeFile.close();
 }
 
 void check_out()
 {
-    int RoCode, tempprice, lamount, pay, lmoney = 0;
-    char *temprotype;
-    string tempGname, tempAddress;
+    int RoCode, lamount, pay, lmoney = 0,totalprice;
+    int tempprice;
+    float tempdis,tempvat;
+    char temprotype[50];
+    char tempGname[50], tempAddress[50];
     cout << "Enter the roomcode: ";
     cin >> RoCode;
     Room tobj;    // tobj=Temporary object
@@ -211,24 +208,27 @@ void check_out()
         cout << "Opening of userfile is not successfull.";
         return;
     }
-    cout << "yaha";
 
+    //reading from the roomfile and getting the desired data is done here
     while (infile.read((char *)&tobj, sizeof(Room)))
     {
-        cout << "\n1";
         if (RoCode == tobj.rocode())
         {
+            cout << "\nRoom file ma room vetiyo";
             tempprice = tobj.retPrice();
-            temprotype = tobj.retRoomtype();
+            tempdis=tobj.retDiscount();
+            tempvat=tobj.retVat();
+            strcpy(temprotype, tobj.retRoomtype());
         }
     }
+    //reading from the userfile and getting the desired data is done here
     while (infile1.read((char *)&dispobj, sizeof(User)))
     {
-        cout << "\n2";
-        if (RoCode == dispobj.rocode())
+        if (RoCode == dispobj.roCode())
         {
-            tempGname = dispobj.retName();
-            tempAddress = dispobj.retAddress();
+            cout << "\nUser ko ma pani room vetiyo";
+            strcpy(tempGname, dispobj.retName());
+            strcpy(tempAddress, dispobj.retAddress());
         }
     }
     infile.close();
@@ -237,45 +237,19 @@ void check_out()
     cout << "\nAddress: " << tempAddress;
     cout << "\nRoom type: " << temprotype;
     cout << "\nprice: " << tempprice;
+    
+    // calculation part
     // 1st parameter =price and 2nd paramter=total days stayed here 4 is dummy value
-    cout << "\nTotal amount: " << totalamount(tempprice, 4);
-
-    // // File is read and each object values stored in the files is checked in below while statement two files are read
-    // while(infile.read((char *)&tobj,sizeof(Room)))
-    // { cout<<"\n1";
-    //     if(RoCode==tobj.rocode())
-    //     {
-    //         cout<<"\n2";
-    //     while(infile1.read((char*)&dispobj,sizeof(User)))
-    //     {
-    //         cout<<"\n3";
-
-    //         if(RoCode==dispobj.rocode())
-    //     { cout<<"\n 4";
-    //            tempprice=tobj.retPrice();
-    //         cout<<"\nGuest name: "<<dispobj.retName();
-    //         cout<<"\nAddress: "<<dispobj.retAddress();
-    //         cout<<"\nRoom type: "<<tobj.retRoomtype();
-    //         cout<<"\nprice: "<<tempprice;
-
-    //         // 1st parameter =price and 2nd paramter=total days stayed here 4 is dummy value
-    //         cout<<"\nTotal amount: "<<totalamount(tempprice,4);
-    //             break;
-    //             }
-    //         }
-    //      infile1.clear();
-    //      infile1.seekg(0);
-    //     }
-
-    // }
-    // infile1.close();
-    // infile.close();
+    totalprice=totalamount(tempprice, 4);
+    totalprice=totalprice+(totalprice*(tempvat/100))-(totalprice*(tempdis/100));
+    cout << "\nTotal amount: " << totalprice;
+    
     cout << "\nPlease enter amount to be paid here: ";
     cin >> pay;
 // This lable is to recheck whether the amount is fully paid after left money is added
 check:
     pay += lmoney;
-    lamount = pay - tempprice;
+    lamount = pay - totalprice;
     if (lamount < 0)
     {
         cout << "The paid money is not enough ";
@@ -285,19 +259,10 @@ check:
     }
     else if (lamount > 0)
     {
-
         cout << "Your return amount is:" << lamount;
-        deleteUserdata(RoCode);
     }
-
-    else
-    {
-        deleteUserdata(RoCode);
-        cout << "Thank you for the stay!! ";
-        cout << "We are exiting.";
-        smile();
-        exit(0);
-    }
+    deleteUserdata(RoCode);
+    roomAllocandDealloc(RoCode, 0);
 }
 
 int main()
@@ -311,19 +276,52 @@ int main()
         {
         case 1:
         {
-           check_in();
+            check_in();
+            cout << "\nValid age and user checked-in successfull.";
             getch();
             break;
         }
         break;
         case 2:
+        {
             check_out();
-            cout << "\n------- -----User checked-out successfully------------" << endl;
-            break;
-        case 3:
-            cout << "\nYetikae dummy case banayeko maile";
+            cout << "\n------- -----User checked-out successfully------------";
+            cout << "\nThank you for the stay!! ";
+            cout << "\nWe are exiting.";
             exit(0);
             break;
+        }
+        case 3:
+        {
+           // cout << "\nYetikae dummy case banayeko maile";
+            exit(0);
+            break;
+        }
+        case 4:
+        {
+            ifstream inputFile("UserRecordsFile.txt", ios::binary | ios::in);
+            if (!inputFile.is_open())
+            {
+                cout << "Error opening file for reading!" << endl;
+                return 1;
+            }
+            User obj;
+            while (inputFile.read((char *)&obj, sizeof(User)))
+            {
+                obj.displayData();
+            }
+            inputFile.close();
+            getch();
+            break;
+        }
+        case 5:
+        {
+            int r;
+            cout << "Enter the roomcode";
+            cin >> r;
+            deleteUserdata(r);
+            break;
+        }
 
         default:
             cout << "\nPlease try again";
@@ -340,73 +338,6 @@ int totalamount(int price, int days)
 
     return (price * days);
 }
-
-void smile()
-{
-    cout<<"\n";
-    cout << "  *****" << endl;
-    cout << " *     *" << endl;
-    cout << "*  O O  *" << endl;
-    cout << "*   ^   *" << endl;
-    cout << " * \\_/ *" << endl;
-    cout << "  *****" << endl;
-}
-/*
-void deleteroom(int n)
-{
-    Room del, hh;
-    int flag = 0;
-    ifstream infile("Room.txt", ios::binary);
-    ofstream outfile("tmp.txt", ios::binary);
-    if (!infile)
-    {
-        cout << "\nRoom.txt is not opening" << endl;
-        cin.get();
-        return;
-    }
-    else if (!outfile)
-    {
-        cout << "tmp.txt is not opening";
-        cin.get();
-        return;
-    }
-    else
-    {
-        infile.seekg(0, ios::beg);
-        while (infile.read((char *)&hh, sizeof(Room)))
-        {
-            if (n == hh.rcode) // Checking the existence of room
-            {
-                cout << "room exist;";
-                flag = 1;
-                infile.seekg(0, ios::beg);
-                // Writing of content in temp file starts here
-                //  logic used: Writing all the content except deleting content in temp file and renaming the temp file to original file.
-                while (infile.read((char *)&del, sizeof(Room)))
-                {
-                    if (n != del.rcode)
-                    {
-                        outfile.write((char *)&del, sizeof(Room));
-                    }
-                }
-            }
-        }
-        if (flag == 0)
-        {
-            cout << "Room doesn't exist";
-            cin.get();
-            return;
-        }
-    }
-    outfile.close();
-    infile.close();
-    remove("Room.txt");
-    rename("tmp.txt", "Room.txt");
-    againopenandclosefile();
-    cout << "\n------------Room deleted successfully------------" << endl;
-    smile();
-    getch();
-}*/
 void againopenandclosefile()
 {
     ifstream inFile;
@@ -418,6 +349,21 @@ void againopenandclosefile()
         return;
     }
     while (inFile.read((char *)&aa, sizeof(Room)))
+    {
+    }
+    inFile.close();
+}
+void closeandopenforuserfile()
+{
+    ifstream inFile;
+    User aa;
+    inFile.open("UserRecordsFile.txt", ios::binary);
+    if (!inFile)
+    {
+        cin.get();
+        return;
+    }
+    while (inFile.read((char *)&aa, sizeof(User)))
     {
     }
     inFile.close();
@@ -445,18 +391,18 @@ void deleteUserdata(int n)
         infile.seekg(0, ios::beg);
         while (infile.read((char *)&hh, sizeof(User)))
         {
-            if (n == hh.rocode()) // Checking the existence of room
+            if (n == hh.roCode()) // Checking the existence of user
             {
-                cout << "User exist;";
+                // cout << "\nUser exist;";
                 flag = 1;
                 infile.seekg(0, ios::beg);
                 // Writing of content in temp file starts here
                 //  logic used: Writing all the content except deleting content in temp file and renaming the temp file to original file.
-                while (infile.read((char *)&del, sizeof(Room)))
+                while (infile.read((char *)&del, sizeof(User)))
                 {
-                    if (n != del.rocode())
+                    if (n != del.roCode())
                     {
-                        outfile.write((char *)&del, sizeof(Room));
+                        outfile.write((char *)&del, sizeof(User));
                     }
                 }
             }
@@ -470,34 +416,32 @@ void deleteUserdata(int n)
     }
     outfile.close();
     infile.close();
-    remove("Room.txt");
-    rename("tmp.txt", "Room.txt");
-    againopenandclosefile();
+    remove("UserRecordsFile.txt");
+    rename("tmp.txt", "UserRecordsFile.txt");
+    closeandopenforuserfile();
 
     smile();
-    getch();
+   // getch();
 }
 
-
-void roomAllocandDealloc(int n,int sw )
+void roomAllocandDealloc(int n, int sw)
 {
-    Room st,tmp;
-    cout<<"We are inside the function";
-    int rid=n, flag=0, fpos=-1;
+    Room st, tmp;
+    int rid = n, flag = 0, fpos = -1;
     fstream file;
-     file.open("Room.txt", ios::binary | ios::in | ios::out);
-     if (!file)
+    file.open("Room.txt", ios::binary | ios::in | ios::out);
+    if (!file)
     {
         cout << "Error opening file for editing !";
         return;
     }
     else
-    { 
-        cout<<"\nwe are inside the else statement";
+    {
         while (file.read((char *)&st, sizeof(Room)))
         {
             if (rid == st.rcode)
-            { cout<<"\nRoom found";
+            {
+                cout << "\nRoom found";
                 flag = 1;
                 fpos = (int)file.tellg();
                 break;
@@ -505,28 +449,24 @@ void roomAllocandDealloc(int n,int sw )
         }
         if (flag == 0)
         {
-            cout << "Room doesn't exist";
+            cout << "Room doesn't exist for allocation";
             cin.get();
-            return;
+            exit(0);
         }
-       file.seekp(fpos - sizeof(Room), ios::beg);
-        tmp=st;
-        if(sw == 1)
+        file.seekp(fpos - sizeof(Room), ios::beg);
+        tmp = st;
+        if (sw == 1)
         {
-            cout<<"\nFlag on vayo";
-        tmp.flagon();
+            tmp.flagon();
         }
-        else{
-        tmp.flagoff();
-       }
-      
-       
-      
-        cout<<"\nFile write ma problem aayo tara banyo";
-        file.write((char *)&tmp,sizeof(Room));
-        cout<<"\n file write vayo";
+        else
+        {
+            tmp.flagoff();
+        }
+
+        file.write((char *)&tmp, sizeof(Room));
         file.close();
-        cout<<"\n file close vayo";
+       
     }
 }
 // File that we are creating is UserRecordsFile.txt

@@ -24,8 +24,5 @@ int main()
     cout << "| S.N|    Room code |        Room type     |   Price   | Discount | VAT   |" << endl;
     cout << "+----+-------------+-----------------------+-----------+----------+-------+" << endl;
     display();
-     
-
-
     return 0;
 }

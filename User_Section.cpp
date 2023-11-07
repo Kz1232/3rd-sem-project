@@ -7,7 +7,7 @@
 #include <iomanip>
 using namespace std;
 int totalamount(int, int);
-void smile();
+//void smile();
 void deleteUserdata(int);
 void deleteroom(int);
 void againopenandclosefile();
@@ -97,14 +97,6 @@ private:
     int age;
 
 public:
-    // Constructor to initialize the object
-    User()
-    {
-        roomCode = 0;
-        // name = "";
-        // address = "";
-        age = 0;
-    }
 
     // Member function to take input for data members
     void inputData()
@@ -126,11 +118,14 @@ public:
         cout << "\nPlease review your data and enter 'Y' or 'y'  to confirm it: ";
         cin >> c;
         if (c == 'Y' || c == 'y')
-        {
-            if (age < 18)
+        {   while(true){
+            if(age < 18)
             {
                 cout << "\nAge is invalid!! \n Re-enter the age: ";
                 cin >> age;
+            }
+            else 
+            break;
             }
             roomAllocandDealloc(roomCode, 1);
         }
@@ -420,7 +415,7 @@ void deleteUserdata(int n)
     rename("tmp.txt", "UserRecordsFile.txt");
     closeandopenforuserfile();
 
-    smile();
+    //smile();
    // getch();
 }
 

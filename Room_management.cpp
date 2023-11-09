@@ -4,76 +4,28 @@
 #include <stdio.h>
 #include <conio.h>
 #include<iomanip>
+#include<limits>
 using namespace std;
-// class Room
-// {
-// public:
-//     char roomtype[50];
-//     int rcode;
-//     bool flag;
-//     int price;
-//     int discount;
-//     int VAT;
-//     void input()
-//     { int choice,n;
-//         flag=false;
-//         cout << "\n\n\n\n\t\t\t\tEnter Room type: ";
-//         cin.getline(roomtype,50);
-//         cout << "\t\t\t\tEnter Room  code: ";
-//         cin >> rcode;
-//         cout << "\t\t\t\tEnter Room price: ";
-//         cin >> price;
-//         cout << "\t\t\t\tEnter Discount percentage: ";
-//         cin >> discount;
-//         cout << "\t\t\t\tEnter VAT percentage: ";
-//         cin >> VAT;
-//         // cout<<"\nDo you want to add additional feature of this rooom";
-//         // cout<<"\nIf yes enter 1 else any other key ";
-//         // cin>>choice;
-//         // if(choice==1)
-//         // {
-//         //     cout<<"Enter the total number of feature:";
-//         //     cin>>n;
-//         //     EntSpF(n);
-//         // }
-//     }
-//     void actualedit(int);
-//     void display()
-//     {
-//         cout << "\n\t\t\t\tRoom code: " << rcode << endl;
-//         cout << "\t\t\t\tRoom type: " << roomtype << endl;
-//         cout << "\t\t\t\tPrice: " << price << endl;
-//         //getch();
-//     }
-//      int rocode()
-//     {
-//         return rcode;
-//     }
-//     int retDiscount()
-//     {
-//         return discount;
-//     }
-//     int retPrice()
-//     {
-//         return price;
-//     }
-//     int retVat()
-//     {
-//         return VAT;
-//     }
-//     char *retRoomtype()
-//     {
-//         return roomtype;
-//     }
-//     void flagon()
-//     {
-//         flag=true;
-//     }
-//     void flagoff()
-//     {
-//         flag=false;
-//     }
-// };
+int intvalidater()
+{
+ int r;
+ cin>>r;
+    while(1)
+{
+if(cin.fail())
+{
+cin.clear();
+cin.ignore(numeric_limits<streamsize>::max(),'\n');
+cout<<"Enter the numbers only"<<endl;
+cin>>r;
+}
+if(!cin.fail())
+break;
+}
+
+//cout<<"the number is: "<<r<<endl;
+return r;
+}
 class Room
 {
 
@@ -90,23 +42,15 @@ class Room
         int choice, n;
         cout << "\n\t\t\t\tEnter Room type: ";
         cin.getline(roomtype, 50);
+        cout<<"";
         cout << "\t\t\t\tEnter Room  code: ";
-        cin >> rcode;
-        cout << "\t\t\t\tEnter Room price: ";
-        cin >> price;
-        cout << "\t\t\t\tEnter Discount percentage: ";
-        cin >> discount;
-        cout << "\t\t\t\tEnter VAT percentage: ";
-        cin >> VAT;
-        // cout << "\nDo you want to add additional feature of this rooom";
-        // cout << "\nIf yes enter 1 else any other key ";
-        // cin >> choice;
-        // if (choice == 1)
-        // {
-        //     cout << "Enter the total number of feature:";
-        //     cin >> n;
-        //     EntSpF(n);
-        // }
+        cin>>rcode;
+        cout << "\t\t\t\tEnter Room price(only numeric term allowed): ";
+         price=intvalidater();
+        cout << "\t\t\t\tEnter Discount percentage(only numeric term allowed): ";
+         discount=intvalidater();
+        cout << "\t\t\t\tEnter VAT percentage(only numeric term allowed): ";
+        VAT=intvalidater();
     }
     void actualedit(int);
     void display()
@@ -157,6 +101,7 @@ void smile()
     cout << " * \\_/ *" << endl;
     cout << "  *****" << endl;
 }
+
 void Room::actualedit(int n)
 {
     int op;
@@ -177,12 +122,12 @@ again:
     case 1:
     {
         while (true)
-        {
-            cout << "\t\t\t\tEnter the new room type :";
-            cin >> rtype;
+        { cin.ignore();
+            cout << "\n\t\t\t\tEnter the new room type :";
+            std::cin.getline(rtype,50);
             cout << "\t\t\t\tPress y to confirm and n to change again: ";
             a = getch();
-            if (a == 'y' || 'Y')
+            if (a == 'y' || a =='Y')
             {
                 strcpy(roomtype,rtype);
                 flag = 1;
@@ -193,31 +138,27 @@ again:
     }
     case 2:
     {
-    confirm:
-        cout << "\t\t\t\tEnter the new price :";
+        while(true)
+        {cout << "\n\t\t\t\tEnter the new price :";
         cin >> tpri;
         cout << "\t\t\t\tPress y to confirm and n to change again: ";
         a = getch();
-        if (a == 'y' || 'Y')
+         if (a == 'y' || a=='Y')
         {
             price = tpri;
             flag = 1;
             break;
-        }
-        else
-        {
-            goto confirm;
-        }
+        }}
     }
     case 3:
     {
         while (true)
         {
-            cout << "\t\t\t\tEnter the new discount percentage :";
+            cout << "\n\t\t\t\tEnter the new discount percentage :";
             cin >> tdis;
             cout << "\t\t\t\tPress y to confirm and n to change again: ";
             a = getch();
-            if (a == 'y' || 'Y')
+            if (a == 'y' || a=='Y')
             {
                 discount = tdis;
                 flag = 1;
@@ -230,11 +171,11 @@ again:
     {
         while (true)
         {
-            cout << "\t\t\t\tEnter the new vat percentage :";
+            cout << "\n\t\t\t\tEnter the new vat percentage :";
             cin >> tvat;
             cout << "\t\t\t\tPress y to confirm and n to change again: ";
             a = getch();
-            if (a == 'y' || 'Y')
+            if (a == 'y' || a=='Y')
             {
                 VAT = tvat;
                 flag = 1;
@@ -248,11 +189,12 @@ again:
     {
         char c;
         cout << "\n\t\t\t\tEnter the 'm' or 'M' to edit more: ";
-        cin >> c;
+        c = getch();
         if (c == 'm' || c == 'M')
         {
             goto again;
         }
+        else return;
     }
 }
 
@@ -278,10 +220,10 @@ void edit(int n)
                 break;
             }
         }
-        if (flag = 0)
+        if (flag == 0)
         {
             cout << "\t\t\t\tRoom doesn't exist";
-            cin.get();
+            getch();          
             return;
         }
         file.seekp(fpos - sizeof(Room), ios::beg);
@@ -293,7 +235,7 @@ void edit(int n)
         getch();
     }
 }
-// sometime files doesnt respond so opening and closing is done to make sure that.
+// sometime files doesn't respond so opening and closing is done to make sure that.
 void againopenandclosefile()
 {
     ifstream inFile;

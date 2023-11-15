@@ -3,28 +3,26 @@
 #include <cstring>
 #include <stdio.h>
 #include <conio.h>
-#include<iomanip>
-#include<limits>
+#include <iomanip>
+#include <limits>
 using namespace std;
 int intvalidater()
 {
- int r;
- cin>>r;
-    while(1)
-{
-if(cin.fail())
-{
-cin.clear();
-cin.ignore(numeric_limits<streamsize>::max(),'\n');
-cout<<"Enter the numbers only"<<endl;
-cin>>r;
-}
-if(!cin.fail())
-break;
-}
-
-//cout<<"the number is: "<<r<<endl;
-return r;
+    int r;
+    cin >> r;
+    while (1)
+    {
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Enter the numbers only" << endl;
+            cin >> r;
+        }
+        if (!cin.fail())
+            break;
+    }
+    return r;
 }
 class Room
 {
@@ -34,28 +32,30 @@ class Room
     bool flag;
     int price;
     float discount;
-    float VAT; 
-    public:
+    float VAT;
+
+public:
     void input()
     {
-        flag = false;
+        flag = 1;
         int choice, n;
         cout << "\n\t\t\t\tEnter Room type: ";
         cin.getline(roomtype, 50);
-        cout<<"";
+        cout << "";
         cout << "\t\t\t\tEnter Room  code: ";
-        cin>>rcode;
+        cin >> rcode;
         cout << "\t\t\t\tEnter Room price(only numeric term allowed): ";
-         price=intvalidater();
+        price = intvalidater();
         cout << "\t\t\t\tEnter Discount percentage(only numeric term allowed): ";
-         discount=intvalidater();
+        discount = intvalidater();
         cout << "\t\t\t\tEnter VAT percentage(only numeric term allowed): ";
-        VAT=intvalidater();
+        VAT = intvalidater();
     }
     void actualedit(int);
     void display()
-    { int i=1;
-        cout << "|  "<<i<<" |   "<<setw(5)<<rcode<<"     |   "<<setw(12)<<roomtype<<"        |  "<<setw(6)<<price<<"  |   "<<setw(5)<<discount<<"    | "<<setw(5)<<VAT<<"|" << endl;
+    {
+        int i = 1;
+        cout << "|  " << i << " |   " << setw(5) << rcode << "     |   " << setw(12) << roomtype << "        |  " << setw(6) << price << "  |   " << setw(5) << discount << "    | " << setw(5) << VAT << "|" << endl;
         // cout << "\n\t\t\t\tRoom code: " << rcode << endl;
         // cout << "\t\t\t\tRoom type: " << roomtype << endl;
         // cout << "\t\t\t\tPrice: " << price << endl;
@@ -105,11 +105,11 @@ void smile()
 void Room::actualedit(int n)
 {
     int op;
-    char  rtype[50],a;
+    char rtype[50], a;
     int tpri;
     float tdis, tvat;
 again:
-    bool flag = 0; 
+    bool flag = 0;
     cout << "\n\n\n\n\t\t\t\t  Room id:" << n << endl;
     cout << "\t\t\t\t1.Room type:" << roomtype << endl;
     cout << "\t\t\t\t2.Price:" << price << endl;
@@ -122,14 +122,15 @@ again:
     case 1:
     {
         while (true)
-        { cin.ignore();
+        {
+            cin.ignore();
             cout << "\n\t\t\t\tEnter the new room type :";
-            std::cin.getline(rtype,50);
+            std::cin.getline(rtype, 50);
             cout << "\t\t\t\tPress y to confirm and n to change again: ";
             a = getch();
-            if (a == 'y' || a =='Y')
+            if (a == 'y' || a == 'Y')
             {
-                strcpy(roomtype,rtype);
+                strcpy(roomtype, rtype);
                 flag = 1;
                 break;
             }
@@ -138,17 +139,19 @@ again:
     }
     case 2:
     {
-        while(true)
-        {cout << "\n\t\t\t\tEnter the new price :";
-        cin >> tpri;
-        cout << "\t\t\t\tPress y to confirm and n to change again: ";
-        a = getch();
-         if (a == 'y' || a=='Y')
+        while (true)
         {
-            price = tpri;
-            flag = 1;
-            break;
-        }}
+            cout << "\n\t\t\t\tEnter the new price :";
+            cin >> tpri;
+            cout << "\t\t\t\tPress y to confirm and n to change again: ";
+            a = getch();
+            if (a == 'y' || a == 'Y')
+            {
+                price = tpri;
+                flag = 1;
+                break;
+            }
+        }
     }
     case 3:
     {
@@ -158,7 +161,7 @@ again:
             cin >> tdis;
             cout << "\t\t\t\tPress y to confirm and n to change again: ";
             a = getch();
-            if (a == 'y' || a=='Y')
+            if (a == 'y' || a == 'Y')
             {
                 discount = tdis;
                 flag = 1;
@@ -175,7 +178,7 @@ again:
             cin >> tvat;
             cout << "\t\t\t\tPress y to confirm and n to change again: ";
             a = getch();
-            if (a == 'y' || a=='Y')
+            if (a == 'y' || a == 'Y')
             {
                 VAT = tvat;
                 flag = 1;
@@ -194,7 +197,8 @@ again:
         {
             goto again;
         }
-        else return;
+        else
+            return;
     }
 }
 
@@ -223,7 +227,7 @@ void edit(int n)
         if (flag == 0)
         {
             cout << "\t\t\t\tRoom doesn't exist";
-            getch();          
+            getch();
             return;
         }
         file.seekp(fpos - sizeof(Room), ios::beg);
@@ -330,7 +334,7 @@ int main()
         case 1:
         {
             Room Room1;
-            cout<<"\n\t\t\t\t Room addition";
+            cout << "\n\t\t\t\t Room addition";
             Room1.input();
 
             ofstream outputFile("Room.txt", ios::binary | ios::app | ios::out);
@@ -339,7 +343,6 @@ int main()
                 cout << "Error opening file for writing!" << endl;
                 return 1;
             }
-
             outputFile.write(reinterpret_cast<const char *>(&Room1), sizeof(Room));
             outputFile.close();
             cout << "Room data added successfully." << endl;
@@ -348,17 +351,18 @@ int main()
         }
         case 2:
         {
-            cout<<"\n\n\n\n\t\t\t\tEdit room";
+            cout << "\n\n\n\n\t\t\t\tEdit room";
             cout << "\n\t\t\t\tEnter the room id:";
             cin >> roomid;
             edit(roomid);
             break;
         }
         case 3:
-        {   cout<<"\n\n\n\n\t\t\tThese are all the room\n";
-        cout << "+----+-------------+-----------------------+-----------+----------+-------+" << endl;
-    cout << "| S.N|    Room code |        Room type     |   Price   | Discount | VAT   |" << endl;
-    cout << "+----+-------------+-----------------------+-----------+----------+-------+" << endl;
+        {
+            cout << "\n\n\n\n\t\t\tThese are all the room\n";
+            cout << "+----+-------------+-----------------------+-----------+----------+-------+" << endl;
+            cout << "| S.N|    Room code |        Room type     |   Price   | Discount | VAT   |" << endl;
+            cout << "+----+-------------+-----------------------+-----------+----------+-------+" << endl;
             ifstream inputFile("Room.txt", ios::binary);
             if (!inputFile.is_open())
             {
@@ -375,7 +379,8 @@ int main()
             break;
         }
         case 4:
-        {   cout<<"\n\n\n\n\nDelete room ";
+        {
+            cout << "\n\n\n\n\nDelete room ";
             cout << "\n\t\t\t\tEnter the room id";
             cin >> roomid;
             deleteroom(roomid);
@@ -389,11 +394,10 @@ int main()
         default:
             cout << "\t\t\t\tInvalid choice. Please select again." << endl;
         }
-        //cout<<"Compiler";
+        // cout<<"Compiler";
     }
     return 0;
 }
-
 
 /* Output:-
 Value of flag will determine whether it is allocated or not.

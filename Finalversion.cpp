@@ -8,11 +8,13 @@
 #include <limits>
 
 using namespace std;
+void headanimation();
 void menu();
 void Firstmenu();
 void Admsecondmenu();
 void usermenu();
-void UserDetailModi();
+void UserDetailModiMenu();
+void UserDetailModifManagement();
 void roommanagement();
 void usersection();
 int login();
@@ -23,14 +25,15 @@ void edit(int);
 void deleteroom(int);
 void check_in();
 void check_out();
-int totalamount(int,int);
+int totalamount(int, int);
 void deleteUserdata(int);
-void roomAllocandDealloc(int,int);
+void roomAllocandDealloc(int, int);
 void closeandopenforuserfile();
 void againopenandclosefile();
 int roomCodeChecker();
 int intvalidater();
 void displayTable();
+void editUserdata(int);
 
 class Room
 {
@@ -214,7 +217,7 @@ again:
             cout << "\n\t\t\t\tEnter the new room type :";
             std::cin.getline(rtype, 50);
             cout << "\t\t\t\tPress y to confirm and n to change again: ";
-            cin>>a;
+            cin >> a;
             if (a == 'y' || a == 'Y')
             {
                 strcpy(roomtype, rtype);
@@ -231,7 +234,7 @@ again:
             cout << "\n\t\t\t\tEnter the new price :";
             cin >> tpri;
             cout << "\t\t\t\tPress y to confirm and n to change again: ";
-            cin>>a;
+            cin >> a;
             if (a == 'y' || a == 'Y')
             {
                 price = tpri;
@@ -248,7 +251,7 @@ again:
             cout << "\n\t\t\t\tEnter the new discount percentage :";
             cin >> tdis;
             cout << "\t\t\t\tPress y to confirm and n to change again: ";
-           cin>>a;
+            cin >> a;
             if (a == 'y' || a == 'Y')
             {
                 discount = tdis;
@@ -265,7 +268,7 @@ again:
             cout << "\n\t\t\t\tEnter the new vat percentage :";
             cin >> tvat;
             cout << "\t\t\t\tPress y to confirm and n to change again: ";
-            cin>>a;
+            cin >> a;
             if (a == 'y' || a == 'Y')
             {
                 VAT = tvat;
@@ -292,7 +295,6 @@ again:
                     cout << "Enter the new feature: ";
                     cin.getline(features[i], 50);
                 }
-    
             }
             cout << "Enter 1 to change another feature:";
             cin >> c;
@@ -320,7 +322,6 @@ again:
         }
     }
 }
-
 
 // User class
 class User
@@ -369,7 +370,7 @@ public:
         else
             goto repeat;
     }
-
+    void actualeditUser(int);
     // Member function to display user information
     void displayData()
     {
@@ -392,7 +393,87 @@ public:
         return roomCode;
     }
 };
-
+void User::actualeditUser(int n)
+{
+    int op;
+    char tname[50], a, taddr[50];
+    int tage;
+again:
+    bool flag = 0;
+    cout << "\n\n\n\n\t\t\t\t  Room id:" << n << endl;
+    cout << "\t\t\t\t1.Name: " << name << endl;
+    cout << "\t\t\t\t2.Address: " << address << endl;
+    cout << "\t\t\t\t3.Age: " << age << endl;
+    cout << "\n\t\t\t\tEnter the number to change the specific option:";
+    cin >> op;
+    switch (op)
+    {
+    case 1:
+    {
+        while (true)
+        {
+            cin.ignore();
+            cout << "\n\t\t\t\tEnter the new name :";
+            std::cin.getline(tname, 50);
+            cout << "\t\t\t\tPress y to confirm and n to change again: ";
+            a = getch();
+            if (a == 'y' || a == 'Y')
+            {
+                strcpy(name, tname);
+                flag = 1;
+                break;
+            }
+        }
+        break;
+    }
+    case 2:
+    {
+        while (true)
+        {
+            cout << "\n\t\t\t\tEnter the new address :";
+            std::cin.getline(taddr, 50);
+            cout << "\t\t\t\tPress y to confirm and n to change again: ";
+            a = getch();
+            if (a == 'y' || a == 'Y')
+            {
+                strcpy(address, taddr);
+                flag = 1;
+                break;
+            }
+        }
+        break;
+    }
+    case 3:
+    {
+        while (true)
+        {
+            cout << "\n\t\t\t\tEnter the new age :";
+            cin >> tage;
+            cout << "\t\t\t\tPress y to confirm and n to change again: ";
+            a = getch();
+            if (a == 'y' || a == 'Y')
+            {
+                age = tage;
+                flag = 1;
+                break;
+            }
+        }
+        break;
+    }
+        if (flag == 1)
+        {
+            char c;
+            cout << "\n\t\t\t\tEnter the 'm' or 'M' to edit more: ";
+            c = getch();
+            if (c == 'm' || c == 'M')
+            {
+                goto again;
+            }
+            else
+                return;
+        }
+    }
+}
 
 int main()
 {
@@ -405,26 +486,28 @@ int main()
     {
     case 1:
     {
-        start:
+    start:
         int AdmOpt;
         Firstmenu();
         cin >> AdmOpt;
         switch (AdmOpt)
         {
         case 1:
-        bool s;
-            cout<<"\n\t\t\t\t" << "Login page";
-            s=loginsystem();
-            if(s=true)
+            bool s;
+            cout << "\n\t\t\t\t"
+                 << "Login page";
+            s = loginsystem();
+            if (s = true)
             {
                 main();
             }
             else
-            break;
+                break;
 
         case 2:
             Register();
-            cout<<"\t\t\t\t" << "Press m or M to goto mainmenu: ";
+            cout << "\t\t\t\t"
+                 << "Press m or M to goto mainmenu: ";
             cin >> r;
             if (r == 'm' || r == 'M')
             {
@@ -432,34 +515,37 @@ int main()
             }
             else
                 break;
-        default :
-            {
-                cout<<"\t\t\t\t" << "Wrong Entry try again!!";
-                goto start;
-            }
+        default:
+        {
+            cout << "\t\t\t\t"
+                 << "Wrong Entry try again!!";
+            goto start;
+        }
         }
         break;
     }
     case 2:
     {
-        cout<<"\n\t\t\t\tUser section:";
+        cout << "\n\t\t\t\tUser section:";
         usersection();
-        cout<<"\n\t\t\t\tPress m or M to goto mainmenu: ";
-            cin >> r;
-            if (r == 'm' || r == 'M')
-            {
-                main();
-            }
-            else
-                break;
+        cout << "\n\t\t\t\tPress m or M to goto mainmenu: ";
+        cin >> r;
+        if (r == 'm' || r == 'M')
+        {
+            main();
+        }
+        else
+            break;
     }
     case 3:
     {
-        cout<<"\t\t\t\t" << "We are exiting.!! Thank you.";
+        cout << "\t\t\t\t"
+             << "We are exiting.!! Thank you.";
         exit(0);
     }
     default:
-        cout<<"\t\t\t\t" << "Wrong Entry try again!!";
+        cout << "\t\t\t\t"
+             << "Wrong Entry try again!!";
         main();
     }
 
@@ -467,82 +553,91 @@ int main()
 }
 
 void menu()
-{   cout<<"\n \n \n \n";
-   system("cls");
-    cout<<"\n\t\t\t\t"<<"Main Menu \n";
-    	std::cout <<"                            ***********************************************************\n";
-        std::cout << "                            *                                                         *\n";
-        std::cout << "                            *             Hotel Room Booking and Management System    *\n";
-        std::cout << "                            *                                                         *\n";
-        std::cout << "                            *    1. Admin                                             *\n";
-        std::cout << "                            *    2. User                                              *\n";
-        std::cout << "                            *    3. Exit                                              *\n";
-        std::cout << "                            *                                                         *\n";
-        std::cout << "                            *                                                         *\n";
-        std::cout << "                            ***********************************************************\n";
-        std::cout << "\n                                 Enter the option to go to the respective section:";
+{
+    cout << "\n \n \n \n";
+    system("cls");
+    headanimation();
+    std::cout << "                         ************************************************************\n";
+    std::cout << "                         *                                                          *\n";
+    std::cout << "                         *                       Main Menu                          *\n";
+    std::cout << "                         *                                                          *\n";
+    std::cout << "                         *    1. Admin                                              *\n";
+    std::cout << "                         *    2. User                                               *\n";
+    std::cout << "                         *    3. Exit                                               *\n";
+    std::cout << "                         *                                                          *\n";
+    std::cout << "                         *                                                          *\n";
+    std::cout << "                         ************************************************************\n";
+    std::cout << "\n                                 Enter the option to go to the respective section:";
 }
 void Firstmenu()
-{   cout<<"\n \n \n \n";
-    cout<<"\t\t\t\t"<<"1st menu\n";
-        std::cout << "                   *******************************************************************\n";
-        std::cout << "                   *                          Admin 1st Menu                         *\n";
-        std::cout << "                   *    1. Login                                                     *\n";
-        std::cout << "                   *    2. Register                                                  *\n";
-        std::cout << "                   *                                                                 *\n";
-        std::cout << "                   *******************************************************************\n";
-        std::cout << "\n                        Enter the option to perform respective action: ";
+{
+    system("cls");
+    headanimation();
+    //cout << "\n \n";
+    //cout << "\t\t\t\t"<< "1st menu\n";
+    std::cout << "                         ************************************************************\n";
+    std::cout << "                         *                          Admin 1st Menu                  *\n";
+    std::cout << "                         *    1. Login                                              *\n";
+    std::cout << "                         *    2. Register                                           *\n";
+    std::cout << "                         *                                                          *\n";
+    std::cout << "                         ************************************************************\n";
+    std::cout << "\n                        Enter the option to perform respective action: ";
 }
 void Admsecondmenu()
-{   cout<<"\n \n \n \n";
-        std::cout << "                            ***********************************************************\n";
-        std::cout << "                            *                                                         *\n";
-        std::cout << "                            *             Admin 2nd menu                              *\n";
-        std::cout << "                            *                                                         *\n";
-        std::cout << "                            *    1. Report                                            *\n";
-        std::cout << "                            *    2. Room management                                   *\n";
-        std::cout << "                            *    3. User detail modification                          *\n";
-        std::cout << "                            *                                                         *\n";
-        std::cout << "                            *                                                         *\n";
-        std::cout << "                            ***********************************************************\n";
-        std::cout << "\n                             Enter the option to go to the respective section: ";
-
+{
+    system("cls");
+    headanimation();
+    std::cout << "                         ***********************************************************\n";
+    std::cout << "                         *                                                         *\n";
+    std::cout << "                         *             Admin 2nd menu                              *\n";
+    std::cout << "                         *                                                         *\n";
+    std::cout << "                         *    1. Report                                            *\n";
+    std::cout << "                         *    2. Room management                                   *\n";
+    std::cout << "                         *    3. User detail modification                          *\n";
+    std::cout << "                         *    4. Main menu                                         *\n";
+    std::cout << "                         *    5. Exit                                              *\n";  
+    std::cout << "                         *                                                         *\n";
+    std::cout << "                         *                                                         *\n";
+    std::cout << "                         ***********************************************************\n";
+    std::cout << "\n                          Enter the option to go to the respective section: ";
 }
-void UserDetailModi()
-{   cout<<"\n \n \n \n";
-        std::cout << "                         *****************************************************" << std::endl;
-        std::cout << "                         *                                                   *" << std::endl;
-        std::cout << "                         *         Admin side user control                   *" << std::endl;
-        std::cout << "                         *                                                   *" << std::endl;
-        std::cout << "                         *  1. Check-in                                      *" << std::endl;
-        std::cout << "                         *  2. Check-out                                     *" << std::endl;
-        std::cout << "                         *  3. Edit-User Data                                *" << std::endl;
-        std::cout << "                         *                                                   *" << std::endl;
-        std::cout << "                         *****************************************************" << std::endl;
-       std::cout << "\n                        Enter the option to perform respective action: ";
- getch();
+void UserDetailModiMenu()
+{
+    system("cls");
+    headanimation();
+    std::cout << "                        ************************************************************\n";
+    std::cout << "                        *                                                          *" << std::endl;
+    std::cout << "                        *         Admin side user control                          *" << std::endl;
+    std::cout << "                        *                                                          *" << std::endl;
+    std::cout << "                        *  1. Check-in                                             *" << std::endl;
+    std::cout << "                        *  2. Check-out                                            *" << std::endl;
+    std::cout << "                        *  3. Edit-User Data                                       *" << std::endl;
+    std::cout << "                        *                                                          *" << std::endl;
+    std::cout << "                        ************************************************************" << std::endl;
+    std::cout << "\n                        Enter the option to perform respective action: ";
 }
 void roommanagement()
 {
 
-    int choice,s; //bool breaker;
+    int choice, s; // bool breaker;
     int roomid;
     while (true)
     {
         system("cls");
-        cout<<"\t\t\t\t"<<"3rd memu\n";
-        std::cout << "                               ******************************************************\n";
-        std::cout << "                               *                 ROOM MANAGEMENT SYSTEM             *\n";
-        std::cout << "                               *  1. Add Room                                       *\n";
-        std::cout << "                               *  2. Edit Room                                      *\n";
-        std::cout << "                               *  3. Delete Room                                    *\n";
-        std::cout << "                               *  4. Display all room                               *\n";
-        std::cout << "                               *  5. Goto main menu                                 *\n";
-        std::cout << "                               *  6. exit                                           *\n";
-        std::cout << "                               *                                                    *\n";
-        std::cout << "                               ******************************************************\n";
-        std::cout << "                                Enter the option to perform the respective action: ";
-                                                               cin >> choice;
+        headanimation();
+        //cout << "\t\t\t\t"<< "3rd memu\n";
+        std::cout << "                     ***********************************************************" << std::endl;
+        std::cout << "                     *                 ROOM MANAGEMENT SYSTEM                  *\n";
+        std::cout << "                     *  1. Add Room                                            *\n";
+        std::cout << "                     *  2. Edit Room                                           *\n";
+        std::cout << "                     *  3. Delete Room                                         *\n";
+        std::cout << "                     *  4. Display all room                                    *\n";
+        std::cout << "                     *  5. Goto main menu                                      *\n";
+        std::cout << "                     *  6. exit                                                *\n";
+        std::cout << "                     *                                                         *\n";
+        std::cout << "                     ***********************************************************\n";
+        std::cout << "                      Enter the option to perform the respective action: ";
+        cin >> choice;
 
         cin.ignore(); // Clear the newline character left in the buffer
         switch (choice)
@@ -550,29 +645,29 @@ void roommanagement()
         case 1:
         {
             Room Room1;
-            
-            s=Room1.input();
-            if(s==2)
+
+            s = Room1.input();
+            if (s == 2)
             {
-            ofstream outputFile("Room.txt", ios::binary | ios::app | ios::out);
-            if (!outputFile.is_open())
-            {
-                cout << "Error opening file for writing!" << endl;
-                exit(0);
+                ofstream outputFile("Room.txt", ios::binary | ios::app | ios::out);
+                if (!outputFile.is_open())
+                {
+                    cout << "Error opening file for writing!" << endl;
+                    exit(0);
+                }
+                outputFile.write(reinterpret_cast<const char *>(&Room1), sizeof(Room));
+                outputFile.close();
+                cout << "\t\t\t\tRoom data added successfully." << endl;
+                smile();
+                getch();
+                break;
             }
-            outputFile.write(reinterpret_cast<const char *>(&Room1), sizeof(Room));
-            outputFile.close();
-            cout << "\t\t\t\tRoom data added successfully." << endl;
-            smile();
-            getch();
-            break;
-            }
-            else if(s==1)
+            else if (s == 1)
             {
                 cout << "\n\t\t\t\tRoom data added successfully." << endl;
                 smile();
                 getch();
-            break;
+                break;
             }
         }
         case 2:
@@ -584,13 +679,13 @@ void roommanagement()
             edit(roomid);
             break;
         }
-         case 3:
-        {   
+        case 3:
+        {
             system("cls");
             displayTable();
             cout << "\n\t\t\t\tDelete room ";
             cout << "\n\t\t\t\tEnter the room id: ";
-            roomid=intvalidater();
+            roomid = intvalidater();
             deleteroom(roomid);
             break;
         }
@@ -601,16 +696,17 @@ void roommanagement()
             cout << "+----+-------------+-----------------------+-----------+----------+-------+" << endl;
             cout << "| S.N|    Room code |        Room type     |   Price   | Discount | VAT   |" << endl;
             cout << "+----+-------------+-----------------------+-----------+----------+-------+" << endl;
-            ifstream inputFile("Room.txt", ios::binary|ios::in);
+            ifstream inputFile("Room.txt", ios::binary | ios::in);
             if (!inputFile.is_open())
             {
                 cout << "Error opening file for reading!" << endl;
                 exit(0);
             }
             Room room;
-            int i=0;
+            int i = 0;
             while (inputFile.read(reinterpret_cast<char *>(&room), sizeof(Room)))
-            {   i++;
+            {
+                i++;
                 room.display(i);
                 room.displayfeat();
             }
@@ -621,9 +717,8 @@ void roommanagement()
         case 5:
         {
             return;
-
         }
-       
+
         case 6:
         {
             cout << "\t\t\t\tExiting program." << endl;
@@ -632,18 +727,16 @@ void roommanagement()
         default:
             cout << "\t\t\t\tInvalid choice. Please select again." << endl;
         }
-
     }
-    
 }
 void usersection()
 {
-        int choice;
+    int choice;
     while (true)
     {
         usermenu();
         cin >> choice;
-         switch (choice)
+        switch (choice)
         {
         case 1:
         {
@@ -660,41 +753,43 @@ void usersection()
         {
             system("cls");
             check_out();
-            cout << "\n\n\t\t\t\t User checked-out successfull !!"<<endl;
-            cout << "\n\t\t\t\t Thank you for the stay!! "<<endl;
+            cout << "\n\n\t\t\t\t User checked-out successfull !!" << endl;
+            cout << "\n\t\t\t\t Thank you for the stay!! " << endl;
             cout << "\n\t\t\t\t We are exiting.";
             smile();
             exit(0);
             break;
         }
-           case 3:
+        case 3:
         {
             int t;
-            cout<<"\t\t\t\t"<<"\nMy details \n";
-            cout<<"\t\t\t\t"<<"\nEnter the roomcode:";
-            cin>>t;
-             ifstream inputFile("UserRecordsFile.txt", ios::binary | ios::in);
+            cout << "\t\t\t\t"
+                 << "\nMy details \n";
+            cout << "\t\t\t\t"
+                 << "\nEnter the roomcode:";
+            cin >> t;
+            ifstream inputFile("UserRecordsFile.txt", ios::binary | ios::in);
             if (!inputFile.is_open())
             {
                 cout << "Error opening file for reading!" << endl;
-                return ;
+                return;
             }
             User obj;
             while (inputFile.read((char *)&obj, sizeof(User)))
             {
-                if(t==obj.roCode())
+                if (t == obj.roCode())
                 {
-                obj.displayData();
-                inputFile.close();
-                getch();
-                break;
+                    obj.displayData();
+                    inputFile.close();
+                    getch();
+                    break;
                 }
             }
             inputFile.close();
             getch();
             break;
         }
-        
+
         case 4:
         {
             return;
@@ -705,42 +800,39 @@ void usersection()
             exit(0);
             break;
         }
-        case 6:
-        {
-            system("cls");
-            ifstream inputFile("UserRecordsFile.txt", ios::binary | ios::in);
-            if (!inputFile.is_open())
-            {
-                cout << "Error opening file for reading!" << endl;
-                exit(0);
-            }
-            User obj;
-            while (inputFile.read((char *)&obj, sizeof(User)))
-            {
-                obj.displayData();
-            }
-            inputFile.close();
-            getch();
-            break;
-        }
-        // case 5:
+        // case 6:
         // {
         //     system("cls");
-        //     int r;
-        //     cout << "Enter the roomcode";
-        //     cin >> r;
-        //     deleteUserdata(r);
+        //     ifstream inputFile("UserRecordsFile.txt", ios::binary | ios::in);
+        //     if (!inputFile.is_open())
+        //     {
+        //         cout << "Error opening file for reading!" << endl;
+        //         exit(0);
+        //     }
+        //     User obj;
+        //     while (inputFile.read((char *)&obj, sizeof(User)))
+        //     {
+        //         obj.displayData();
+        //     }
+        //     inputFile.close();
+        //     getch();
         //     break;
         // }
+            // case 5:
+            // {
+            //     system("cls");
+            //     int r;
+            //     cout << "Enter the roomcode";
+            //     cin >> r;
+            //     deleteUserdata(r);
+            //     break;
+            // }
 
         default:
             cout << "\nPlease try again";
             break;
         }
     }
-
-
-
 }
 
 int login()
@@ -778,58 +870,81 @@ int login()
 bool loginsystem()
 {
     if (login() == 1)
+    {
+        int opt;
+        char r;
+        // cout << "Admin 2nd page menu";
+        Admsecondmenu();
+        cin >> opt;
+        switch (opt)
+        {
+        case 1:
+        {
+            cout << "\n\t\t\t\tReport section:";
+            cout << "\t\t\t\t"
+                 << "\nNull, work on the progress...........";
+            cout << "\t\t\t\t"
+                 << "Press m or M to goto mainmenu";
+            cin >> r;
+            if (r == 'm' || r == 'M')
             {
-                int opt; char r;
-                cout << "Admin 2nd page menu";
-                Admsecondmenu();
-                cin >> opt;
-                switch (opt)
-                {
-                case 1:
-                    cout<<"\n\t\t\t\tReport section:";
-                    cout<<"\t\t\t\t" << "\nNull, work on the progress...........";
-                    cout<<"\t\t\t\t" << "Press m or M to goto mainmenu";
-                    cin >> r;
-                    if (r == 'm' || r == 'M')
-                    {
-                        return true;
-                    }
-                    else
-                        break;
-                case 2:
-                    cout << "\n\t\t\t\tRoom management menu: ";
-                    roommanagement();
-                    cout<<"\t\t\t\t" << "Press m or M to goto mainmenu";
-                    cin >> r;
-                    if (r == 'm' || r == 'M')
-                    {
-                        return true;
-                    }
-                    else
-                        break;
-                case 3:
-                cout<<"\n\t\t\t\tUser detail modicfication";
-                UserDetailModi();
-                 cout << "\n"<<"\t\t\t\tNull, work on the progress...........";
-                    cout<<"\n\t\t\t\t" << "Press m or M to goto mainmenu";
-                    cin >> r;
-                    if (r == 'm' || r == 'M')
-                    {
-                        return true;
-                    }
-                    else
-                        break;
-                default :
-                    cout<<"\n\t\t\t\t" << "Wrong Entry try again!!";
-                }
+                return true;
             }
             else
-            return false;
+                break;
+        }
+        case 2:
+        {
+            cout << "\n\t\t\t\tRoom management menu: ";
+            roommanagement();
+            cout << "\t\t\t\t"
+                 << "Press m or M to goto mainmenu";
+            cin >> r;
+            if (r == 'm' || r == 'M')
+            {
+                return true;
+            }
+            else
+                break;
+        }
+        case 3:
+        {
+            cout << "\n\t\t\t\tUser detail modicfication";
+            UserDetailModifManagement();
+            cout << "\n"
+                 << "\t\t\t\tNull, work on the progress...........";
+            cout << "\n\t\t\t\t"
+                 << "Press m or M to goto mainmenu";
+            cin >> r;
+            if (r == 'm' || r == 'M')
+            {
+                return true;
+            }
+            else
+                break;
+        }
+        case 4:
+        {
+            return true;
+            break;
+        }
+        case 5:
+        {
+            cout<<"\nWe are exiting...";
+            exit(0);
+        }
+        default:
+            cout << "\n\t\t\t\t"
+                 << "Wrong Entry try again!!";
+        }
+    }
+    else
+        return false;
 }
 void Register()
 {
-     string userID, userpw;
-    cout<<"\n\n\n\n\n\t\t\t\tFor Registration ";
+    string userID, userpw;
+    cout << "\n\n\n\n\n\t\t\t\tFor Registration ";
     cout << "\n\t\t\t\tEnter your username:";
     cin >> userID;
     cout << "\t\t\t\tEnter your Password:";
@@ -849,7 +964,7 @@ void Register()
     // main();
 }
 
-//Smile animation....
+// Smile animation....
 void smile()
 {
     char g[6][9] = {{' ', ' ', '*', '*', '*', '*', '*', ' ', ' '},
@@ -861,7 +976,7 @@ void smile()
 
     };
 
-    std::cout << "\n"; 
+    std::cout << "\n";
     for (int i = 0; i < 6; i++)
     {
         std::cout << "\t\t\t\t\t";
@@ -873,7 +988,6 @@ void smile()
         std::cout << "\n";
     }
 }
-
 
 void edit(int n)
 {
@@ -988,20 +1102,22 @@ void deleteroom(int n)
 // Yaha dekhi muni sab user section lae use hune function haru hunxa
 void usermenu()
 {
-cout<<"\n \n \n \n";
-        std::cout << "                         *****************************************************" << std::endl;
-        std::cout << "                         *                                                   *" << std::endl;
-        std::cout << "                         *                 USER SECTION                      *" << std::endl;
-        std::cout << "                         *                                                   *" << std::endl;
-        std::cout << "                         *  1. Check-In                                      *" << std::endl;
-        std::cout << "                         *  2. Check-out                                     *" << std::endl;
-        std::cout << "                         *  3. My details                                    *" << std::endl;
-        std::cout << "                         *  4. Goto main menu                                *" << std::endl;
-        std::cout << "                         *  5. Exit                                          *" << std::endl;
-        std::cout << "                         *  6. Display all user details                      *" << std::endl;
-        std::cout << "                         *                                                   *" << std::endl;
-        std::cout << "                         *****************************************************" << std::endl;
-        std::cout << "\n                          Enter the number to choose the option : ";
+    system("cls");
+    headanimation();
+    //cout << "\n \n \n \n";
+    std::cout << "                         *****************************************************" << std::endl;
+    std::cout << "                         *                                                   *" << std::endl;
+    std::cout << "                         *                 USER SECTION                      *" << std::endl;
+    std::cout << "                         *                                                   *" << std::endl;
+    std::cout << "                         *  1. Check-In                                      *" << std::endl;
+    std::cout << "                         *  2. Check-out                                     *" << std::endl;
+    std::cout << "                         *  3. My details                                    *" << std::endl;
+    std::cout << "                         *  4. Goto main menu                                *" << std::endl;
+    std::cout << "                         *  5. Exit                                          *" << std::endl;
+    // std::cout << "                         *  6. Display all user details                      *" << std::endl;
+    std::cout << "                         *                                                   *" << std::endl;
+    std::cout << "                         *****************************************************" << std::endl;
+    std::cout << "\n                          Enter the number to choose the option : ";
 }
 
 void check_in()
@@ -1020,18 +1136,19 @@ void check_in()
 }
 void check_out()
 {
-    int RoCode, lamount, pay, lmoney = 0,totalprice;
+    int RoCode, lamount, pay, lmoney = 0, totalprice;
     int tempprice;
-    float tempdis,tempvat;
+    float tempdis, tempvat;
     char temprotype[50];
     char tempGname[50], tempAddress[50];
-    cout<<"\t\t\t\t" << "Enter the roomcode: ";
+    cout << "\t\t\t\t"
+         << "Enter the roomcode: ";
     cin >> RoCode;
     Room tobj;    // tobj=Temporary object
     User dispobj; // dispobj=object being used for the display
     ifstream infile("Room.txt", ios::binary | ios::in);
     ifstream infile1("UserRecordsFile.txt", ios::binary | ios::in);
-     if (!infile.is_open())
+    if (!infile.is_open())
     {
         cout << "\nError: Unable to open the room file";
         exit(0);
@@ -1041,9 +1158,9 @@ void check_out()
         cout << "\nError: Unable to open the room file";
         exit(0);
     }
-//    cout << "yaha";
+    //    cout << "yaha";
 
-   // reading from the roomfile and getting the desired data is done here
+    // reading from the roomfile and getting the desired data is done here
     while (infile.read((char *)&tobj, sizeof(Room)))
     {
         if (RoCode == tobj.rocode())
@@ -1074,10 +1191,9 @@ void check_out()
 
     // calculation part
     // 1st parameter =price and 2nd paramter=total days stayed here 4 is dummy value
-    totalprice=totalamount(tempprice, 4);
-    totalprice=totalprice+(totalprice*(tempvat/100))-(totalprice*(tempdis/100));
+    totalprice = totalamount(tempprice, 4);
+    totalprice = totalprice + (totalprice * (tempvat / 100)) - (totalprice * (tempdis / 100));
     cout << "\n\n\t\t\t\tTotal amount: " << totalprice;
-
 
     cout << "\n\n\t\t\t\tPlease enter amount to be paid here: ";
     cin >> pay;
@@ -1161,7 +1277,7 @@ void deleteUserdata(int n)
     closeandopenforuserfile();
 
     smile();
-   // getch();
+    // getch();
 }
 void roomAllocandDealloc(int n, int sw)
 {
@@ -1205,7 +1321,6 @@ void roomAllocandDealloc(int n, int sw)
 
         file.write((char *)&tmp, sizeof(Room));
         file.close();
-
     }
 }
 void closeandopenforuserfile()
@@ -1304,4 +1419,104 @@ void displayTable()
     }
     inputFile.close();
     cout << "\n\n";
+}
+
+void UserDetailModifManagement()
+{
+    system("cls");
+    int choice;
+
+    while (true)
+    {
+        UserDetailModiMenu();
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+        {
+            system("cls");
+            check_in();
+            cout << "\n\t\t\t\t Valid age" << endl;
+            cout << " \n\t\t\t\t User checked-in successfull !!";
+            smile();
+            getch();
+            break;
+        }
+        break;
+        case 2:
+        {
+            system("cls");
+            check_out();
+            cout << "\n\n\t\t\t\t User checked-out successfull !!" << endl;
+            cout << "\n\t\t\t\t Thank you for the stay!! " << endl;
+            cout << "\n\t\t\t\t We are exiting.";
+            smile();
+            exit(0);
+            break;
+        }
+        case 3:
+        {
+            system("cls");
+            int r;
+            cout << "\n\t\t\t\tEdit page" << endl;
+            cout << "\n\t\t\t\tEnter the roomcode: ";
+            cin >> r;
+            editUserdata(r);
+            break;
+        }
+        default:
+            cout << "Please!! Try again.";
+            system("pause");
+        }
+    }
+}
+
+void editUserdata(int n)
+{
+    User tmp, st;
+    int rid = n, flag = 0, fpos = -1;
+    fstream file;
+    file.open("UserrecordsFile.txt", ios::binary | ios::in | ios::out);
+    if (!file)
+    {
+        cout << "Error opening file for editing !";
+        return;
+    }
+    else
+    {
+        while (file.read((char *)&st, sizeof(User)))
+        {
+            if (rid == st.roCode())
+            {
+                flag = 1;
+                fpos = (int)file.tellg();
+                break;
+            }
+        }
+        if (flag == 0)
+        {
+            cout << "\t\t\t\tRoom doesn't exist";
+            getch();
+            return;
+        }
+        file.seekp(fpos - sizeof(User), ios::beg);
+        tmp = st;
+        tmp.actualeditUser(rid);
+
+        file.write((char *)&tmp, sizeof(User));
+        file.close();
+        getch();
+    }
+}
+
+void headanimation()
+{
+    const char statement[]={"Hotel Room Booking and Management System"};
+    int length=sizeof(statement)-1;
+    cout<<"\n\t\t\t\t   ";
+   for (int i = 0; i < length; ++i) {
+        std::cout << statement[i] << std::flush;
+        Sleep(100); // 2000 milliseconds = 2 seconds
+    }
+    cout<<"\n\n";
 }

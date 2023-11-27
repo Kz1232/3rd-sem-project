@@ -918,6 +918,8 @@ bool loginsystem()
             cin >> r;
             if (r == 'm' || r == 'M')
             {
+                cout<<"j";
+                c
                 return true;
             }
             else

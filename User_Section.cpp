@@ -8,6 +8,7 @@
 #include <limits>
 
 using namespace std;
+//void headanimation();
 int totalamount(int, int);
 void deleteUserdata(int);
 void deleteroom(int);
@@ -22,66 +23,7 @@ int intvalidater();
 void smile();
 void displayTable();
 void edit(int);
-
-// Room class
-// class Room
-// {
-// public:
-//     char roomtype[50];
-//     int rcode;
-//     bool flag;
-//     int price;
-//     float discount;
-//     float VAT;
-//     void input()
-//     {
-//         flag = false;
-//         int choice, n;
-//         cout << "Enter Room type: ";
-//         cin.getline(roomtype, 50);
-//         cout << "Enter Room  code: ";
-//         cin >> rcode;
-//         cout << "Enter Room price: ";
-//         cin >> price;
-//         cout << "Enter Discount percentage: ";
-//         cin >> discount;
-//         cout << "Enter VAT percentage: ";
-//         cin >> VAT;
-//     }
-//     void actualedit(int);
-//     void display()
-//     { int i=1;
-//         cout << "|  "<<i<<" |   "<<setw(5)<<rcode<<"     |   "<<setw(12)<<roomtype<<"        |  "<<setw(6)<<price<<"  |   "<<setw(5)<<discount<<"    | "<<setw(5)<<VAT<<"|" << endl;
-//     }
-//     int rocode()
-//     {
-//         return rcode;
-//     }
-//     float retDiscount()
-//     {
-//         return discount;
-//     }
-//     int retPrice()
-//     {
-//         return price;
-//     }
-//     float retVat()
-//     {
-//         return VAT;
-//     }
-//     char *retRoomtype()
-//     {
-//         return roomtype;
-//     }
-//     void flagon()
-//     {
-//         flag = true;
-//     }
-//     void flagoff()
-//     {
-//         flag = false;
-//     }
-// };
+void editUserdata(int);
 
 class Room
 {
@@ -249,9 +191,9 @@ again:
     cout << "\n\n\n\n\t\t\t\t  Room id:" << n << endl;
     cout << "\t\t\t\t1.Room type:" << roomtype << endl;
     cout << "\t\t\t\t2.Price:" << price << endl;
-    cout << "\t\t\t\t3.Discount percentage " << discount << endl;
-    cout << "\t\t\t\t4.VAT percentage " << VAT << endl;
-    cout << "\t\t\t\t5.Features " << endl;
+    cout << "\t\t\t\t3.Discount percentage: " << discount << endl;
+    cout << "\t\t\t\t4.VAT percentage: " << VAT << endl;
+    cout << "\t\t\t\t5.Features. " << endl;
 
     cout << "\t\t\t\tEnter the number to change the specific option:";
     cin >> op;
@@ -423,7 +365,7 @@ public:
         else
             goto repeat;
     }
-
+    void actualeditUser(int);
     // Member function to display user information
     void displayData()
     {
@@ -446,6 +388,88 @@ public:
         return roomCode;
     }
 };
+
+void User::actualeditUser(int n)
+{
+    int op;
+    char tname[50], a,taddr[50];
+    int tage;
+again:
+    bool flag = 0;
+    cout << "\n\n\n\n\t\t\t\t  Room id:" << n << endl;
+    cout << "\t\t\t\t1.Name: " << name << endl;
+    cout << "\t\t\t\t2.Address: " << address << endl;
+    cout << "\t\t\t\t3.Age: " << age << endl;
+    cout << "\n\t\t\t\tEnter the number to change the specific option:";
+    cin >> op;
+    switch (op)
+    {
+    case 1:
+    {
+        while (true)
+        {
+            cin.ignore();
+            cout << "\n\t\t\t\tEnter the new name :";
+            std::cin.getline(tname, 50);
+            cout << "\t\t\t\tPress y to confirm and n to change again: ";
+            a = getch();
+            if (a == 'y' || a == 'Y')
+            {
+                strcpy(name, tname);
+                flag = 1;
+                break;
+            }
+        }
+        break;
+    }
+    case 2:
+    {
+        while (true)
+        {
+            cout << "\n\t\t\t\tEnter the new address :";
+            std::cin.getline(taddr,50);
+            cout << "\t\t\t\tPress y to confirm and n to change again: ";
+            a = getch();
+            if (a == 'y' || a == 'Y')
+            {
+                strcpy(address,taddr);
+                flag = 1;
+                break;
+            }
+        }
+        break;
+    }
+    case 3:
+    {
+        while (true)
+        {
+            cout << "\n\t\t\t\tEnter the new age :";
+            cin >> tage;
+            cout << "\t\t\t\tPress y to confirm and n to change again: ";
+            a = getch();
+            if (a == 'y' || a == 'Y')
+            {
+                age = tage;
+                flag = 1;
+                break;
+            }
+        }
+        break;
+    }
+        if (flag == 1)
+        {
+            char c;
+            cout << "\n\t\t\t\tEnter the 'm' or 'M' to edit more: ";
+            c = getch();
+            if (c == 'm' || c == 'M')
+            {
+                goto again;
+            }
+            else
+                return;
+        }
+    }
+}
 
 int main()
 {
@@ -509,6 +533,16 @@ int main()
             cout << "Enter the roomcode";
             cin >> r;
             deleteUserdata(r);
+            break;
+        }
+        case 6:
+        {
+            system("cls");
+            int r;
+            cout<<"\n\t\t\t\tEdit page"<<endl; 
+            cout << "\n\t\t\t\tEnter the roomcode: ";
+            cin >> r;
+            editUserdata(r);
             break;
         }
 
@@ -974,5 +1008,49 @@ void edit(int n)
         getch();
     }
 }
+
+void editUserdata(int n)
+{
+    User tmp, st;
+    int rid = n, flag = 0, fpos = -1;
+    fstream file;
+    file.open("UserrecordsFile.txt", ios::binary | ios::in | ios::out);
+    if (!file)
+    {
+        cout << "Error opening file for editing !";
+        return;
+    }
+    else
+    {
+        while (file.read((char *)&st, sizeof(User)))
+        {
+            if (rid == st.roCode())
+            {
+                flag = 1;
+                fpos = (int)file.tellg();
+                break;
+            }
+        }
+        if (flag == 0)
+        {
+            cout << "\t\t\t\tRoom doesn't exist";
+            getch();
+            return;
+        }
+        file.seekp(fpos - sizeof(User), ios::beg);
+        tmp = st;
+        tmp.actualeditUser(rid);
+
+        file.write((char *)&tmp, sizeof(User));
+        file.close();
+        getch();
+    }
+}
+
+// void headanimation()
+// {
+//     int r
+
+// }
 
 // File that we are creating is UserRecordsFile.txt
